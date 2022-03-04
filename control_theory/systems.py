@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 
 
@@ -54,3 +56,17 @@ class PendODESystem:
     @property
     def b(self):
         return self.b_
+
+
+def linear_system(
+        t: np.ndarray,
+        x: np.ndarray,
+        A: np.ndarray,
+        b: np.ndarray,
+        theta: np.ndarray,
+        x_0: Optional[np.ndarray] = None
+) -> np.ndarray:
+    if x_0 is None:
+        x_0 = x
+
+    return A @ x + b @ theta @ x_0

@@ -19,3 +19,21 @@ def create_char_pol(*roots: float) -> Callable[[np.ndarray], np.ndarray]:
     )
 
     return char_pol
+
+
+def get_control(A: np.ndarray, b: np.ndarray) -> np.ndarray:
+    C = np.column_stack([
+        b,
+        A @ b,
+        np.linalg.matrix_power(A, 2) @ b,
+        np.linalg.matrix_power(A, 3) @ b
+    ])
+
+    theta = (
+        -np.array([[0, 0, 0, 1]])
+        @ np.linalg.inv(C)
+        @ create_char_pol(-1, -2, -7.5, -4)(A)
+    )
+
+    return theta
+
